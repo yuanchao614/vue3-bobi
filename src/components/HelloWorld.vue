@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <el-button type="success" @click="getFileList()">test API</el-button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -34,16 +35,37 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
-@Options({
+import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, reactive, ref, watch } from 'vue'
+import Axios from '../utils/http/axios/Axios'
+export default defineComponent({
+  name: 'HelloWorld',
   props: {
-    msg: String
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
+
+  setup(props, ctx) {
+
+    onMounted(() => {
+      console.log(props);
+    })
+
+   function getFileList() {
+     console.log(111);
+     Axios.request({
+       url: '/files/search',
+       method: 'post',
+         data: {},
+     })
+   }
+
+    return {
+      getFileList
+    }
   }
 })
-export default class HelloWorld extends Vue {
-  msg!: string
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
