@@ -1,6 +1,15 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <el-row>
+  <el-button type="primary" @click="enterFullscreen">Enter windows Full screen</el-button>
+  <el-button type="success" @click="toggleFullscreen">Toggle windows Full screen</el-button>
+  <el-button type="info" @click="exitFullscreen">Exit windows Full screen</el-button>
+  <el-button type="warning">Full screen status {{isFullscreenRef}}</el-button>
+</el-row>
+    <div id="fullScreen">
+      <el-button type="warning" @click="toggleDom">Togelle Full Screen</el-button>
+    </div>
     <el-button type="success" @click="getFileList()">test API</el-button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
@@ -37,6 +46,7 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, reactive, ref, watch } from 'vue'
 import Axios from '../utils/http/axios/Axios'
+import { useFullscreen } from '../utils/utils'
 export default defineComponent({
   name: 'HelloWorld',
   props: {
@@ -47,6 +57,17 @@ export default defineComponent({
   },
 
   setup(props, ctx) {
+
+    const { 
+        enterFullscreen,
+        toggleFullscreen,
+        isFullscreenRef,
+        exitFullscreen,
+    } = useFullscreen()
+
+    const testDom = document.getElementById('fullScreen')
+
+    const { toggleFullscreen: toggleDom} = useFullscreen(testDom as HTMLElement)
 
     onMounted(() => {
       console.log(props);
@@ -62,7 +83,12 @@ export default defineComponent({
    }
 
     return {
-      getFileList
+      getFileList,
+      enterFullscreen,
+      toggleFullscreen,
+      isFullscreenRef,
+      exitFullscreen,
+      toggleDom
     }
   }
 })
@@ -70,6 +96,11 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#fullScreen {
+  width: 200px;
+  height: 150px;
+  background: #42b983;
+}
 h3 {
   margin: 40px 0 0;
 }
