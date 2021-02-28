@@ -8,6 +8,7 @@
   <el-image
     style="width: 100px; height: 100px"
     :src="src"
+    :fit="fit"
     :preview-src-list="srcList">
   </el-image>
   <p>点击图片查看大图</p>

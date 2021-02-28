@@ -21,10 +21,14 @@ export function getFileById(id: string) {
 
 export function download(id: string) {
     return Axios.request({
-        url: `/download/${id}`,
-        method: 'GET',
-        // params: {
-        //     id: id
-        // }
+        url: `/files/download/${id}`,
+        method: 'GET'
+    })
+}
+
+export function deleteApi(id: string) {
+    return Axios.request({
+        url: `/files/delete/${id}`,
+        method: 'GET'
     })
 }

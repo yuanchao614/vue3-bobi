@@ -53,7 +53,7 @@
                 <el-button type="success" @click="downloadFile(item._id)">下载</el-button>
               </el-col>
               <el-col :span="8">
-                <el-button type="warning">删除</el-button>
+                <el-button type="warning" @click="deleteFile(item._id)">删除</el-button>
               </el-col>
             </el-row>
           </div>
@@ -80,10 +80,11 @@ import {
   ref,
   watch
 } from "vue";
-import { useFullscreen } from "../../utils/utils";
+import { useFullscreen, downloadUtl } from "../../utils/utils";
 import { fileInfo } from "../../views/home/interface";
-import { getFileById, download } from "../../api/files/files";
+import { download, deleteApi } from "../../api/files/files";
 import ImageView from "../ImageView/index.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "FileList",
@@ -127,13 +128,21 @@ export default defineComponent({
     function downloadFile(id: string) {
       download(id).then(res => {
         console.log(res, 'donwload::::::::::');
-        const fileLink = document.createElement("a");
-        fileLink.style.display = "none";
-        fileLink.href = res.request.responseURL;
-        document.body.appendChild(fileLink);
-        fileLink.click();
-        document.body.removeChild(fileLink);
+        downloadUtl(res)
       })
+    }
+
+    function deleteFile(id: string) {
+      deleteApi(id).then(res => {
+        if (res) {
+          ElMessage.success({
+            message: '删除数据成功',
+            type: 'success'
+          });
+        }
+      }).catch(() => {
+        ElMessage.error('删除文件失败');
+      });
     }
 
     function closeViewImage(e: boolean) {
@@ -152,7 +161,8 @@ export default defineComponent({
       viewFile,
       viewImageProp,
       closeViewImage,
-      downloadFile
+      downloadFile,
+      deleteFile
     };
   }
 });
