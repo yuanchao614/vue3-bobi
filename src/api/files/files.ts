@@ -18,3 +18,13 @@ export function getFileById(id: string) {
         }
     })
 }
+
+export function download(id: string) {
+    return Axios.request({
+        url: `/download/${id}`,
+        method: 'GET',
+        // params: {
+        //     id: id
+        // }
+    })
+}

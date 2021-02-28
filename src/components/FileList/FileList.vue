@@ -30,7 +30,7 @@
               style="font-size: 40px;color: rgb(146,168,193)"
             ></i>
             <i
-              v-else-if="item.contentType === 'image/jpeg' || item.contentType === 'image/png'"
+              v-else-if="item.contentType.includes('image/')"
               class="iconfont icon-file_img"
               style="font-size: 40px;color: rgb(113,206,82)"
             ></i>
@@ -50,7 +50,7 @@
                 <el-button type="primary" @click="viewFile(item)">查看</el-button>
               </el-col>
               <el-col :span="8">
-                <el-button type="success">下载</el-button>
+                <el-button type="success" @click="downloadFile(item._id)">下载</el-button>
               </el-col>
               <el-col :span="8">
                 <el-button type="warning">删除</el-button>
@@ -82,7 +82,7 @@ import {
 } from "vue";
 import { useFullscreen } from "../../utils/utils";
 import { fileInfo } from "../../views/home/interface";
-import { getFileById } from "../../api/files/files";
+import { getFileById, download } from "../../api/files/files";
 import ImageView from "../ImageView/index.vue";
 
 export default defineComponent({
@@ -115,13 +115,25 @@ export default defineComponent({
     });
 
     function viewFile(data: fileInfo) {
+      console.log(data, 'noted:::::::::');
       if (
-        data.contentType === "image/jpeg" ||
-        data.contentType === "image/png"
+        data.contentType.includes('image/')
       ) {
         viewImageProp.viewImageVisible = true;
         viewImageProp.id = data._id;
       }
+    }
+
+    function downloadFile(id: string) {
+      download(id).then(res => {
+        console.log(res, 'donwload::::::::::');
+        const fileLink = document.createElement("a");
+        fileLink.style.display = "none";
+        fileLink.href = res.request.responseURL;
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+      })
     }
 
     function closeViewImage(e: boolean) {
@@ -139,7 +151,8 @@ export default defineComponent({
       exitFullscreen,
       viewFile,
       viewImageProp,
-      closeViewImage
+      closeViewImage,
+      downloadFile
     };
   }
 });

@@ -59,7 +59,7 @@ const getErrorCode2text = (response: AxiosResponse): string => {
  * service.get<{data: string; code: number}>('/test').then(({data}) => { console.log(data.code) })
  */
 const service = Axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: '/',
   timeout: 10000,
   headers: {
     'User-Type': 'bus'
