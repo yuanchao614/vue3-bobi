@@ -67,6 +67,14 @@
     :viewImageVisible="viewImageProp.viewImageVisible"
     @close="closeViewImage($event)"
   ></ImageView>
+
+  <VideoPlay
+   v-if="videoPlayProp.maskVisible"
+    :id="videoPlayProp.id"
+    :maskVisible="videoPlayProp.maskVisible"
+    @close="closeVideo($event)"
+  >
+  </VideoPlay>
 </template>
 
 <script lang="ts">
@@ -82,14 +90,16 @@ import {
 } from "vue";
 import { useFullscreen, downloadUtl } from "../../utils/utils";
 import { fileInfo } from "../../views/home/interface";
-import { download, deleteApi } from "../../api/files/files";
+import { download, deleteApi, getFileById } from "../../api/files/files";
 import ImageView from "../ImageView/index.vue";
+import VideoPlay from "../VideoPlay/index.vue";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "FileList",
   components: {
-    ImageView
+    ImageView,
+    VideoPlay
   },
   props: {
     name: {
@@ -101,6 +111,7 @@ export default defineComponent({
       default: []
     }
   },
+  emits: ['delete'],
 
   setup(props, ctx) {
     const {
@@ -115,6 +126,11 @@ export default defineComponent({
       id: ""
     });
 
+    const videoPlayProp = reactive({
+      maskVisible: false,
+      id: ''
+    })
+
     function viewFile(data: fileInfo) {
       console.log(data, 'noted:::::::::');
       if (
@@ -122,6 +138,9 @@ export default defineComponent({
       ) {
         viewImageProp.viewImageVisible = true;
         viewImageProp.id = data._id;
+      } else if (data.contentType === 'video/mp4') {
+        videoPlayProp.maskVisible = true;
+        videoPlayProp.id = data._id
       }
     }
 
@@ -139,6 +158,7 @@ export default defineComponent({
             message: '删除数据成功',
             type: 'success'
           });
+          ctx.emit('delete', 'delete')
         }
       }).catch(() => {
         ElMessage.error('删除文件失败');
@@ -147,6 +167,11 @@ export default defineComponent({
 
     function closeViewImage(e: boolean) {
       viewImageProp.viewImageVisible = e;
+    }
+
+    function closeVideo(e: boolean) {
+      console.log(e, 999);
+      videoPlayProp.maskVisible = e;
     }
 
     onMounted(() => {
@@ -162,7 +187,9 @@ export default defineComponent({
       viewImageProp,
       closeViewImage,
       downloadFile,
-      deleteFile
+      deleteFile,
+      videoPlayProp,
+      closeVideo
     };
   }
 });

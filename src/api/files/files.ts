@@ -12,10 +12,7 @@ export function getFileListBySearch(param: any = {}) {
 export function getFileById(id: string) {
     return Axios.request({
         url: `/files/${id}`,
-        method: 'GET',
-        params: {
-            id: id
-        }
+        method: 'GET'
     })
 }
 

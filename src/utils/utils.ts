@@ -84,3 +84,10 @@ export function downloadUtl(res: any) {
   fileLink.click();
   document.body.removeChild(fileLink);
 }
+
+export function loadscript(url: string) {
+  const script = document.createElement("script");
+  script.type = "text/javacript";
+  script.src = url;
+  document.body.appendChild(script);
+}
