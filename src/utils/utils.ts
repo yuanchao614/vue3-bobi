@@ -75,3 +75,19 @@ export const loadIconfontStyle = (url: string) => {
   const head = document.getElementsByTagName('head')[0]
   head.appendChild(link)
 }
+
+export function downloadUtl(res: any) {
+  const fileLink = document.createElement("a");
+  fileLink.style.display = "none";
+  fileLink.href = res.request.responseURL;
+  document.body.appendChild(fileLink);
+  fileLink.click();
+  document.body.removeChild(fileLink);
+}
+
+export function loadscript(url: string) {
+  const script = document.createElement("script");
+  script.type = "text/javacript";
+  script.src = url;
+  document.body.appendChild(script);
+}

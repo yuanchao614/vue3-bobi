@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <FileList v-if="fileData.length" :fileData="fileData" name="Welcome to Your Vue.js + TypeScript App" />
+    <FileList
+      v-if="fileData.length"
+      :fileData="fileData"
+      @delete="deleteFile($event)"
+      name="Welcome to Your Vue.js + TypeScript App"
+    />
   </div>
 </template>
 
@@ -17,7 +22,8 @@ import {
   ref,
   watch
 } from "vue";
-import { getFileListBySearch } from "../../api/files/files"
+import { getFileListBySearch } from "../../api/files/files";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   components: { FileList },
@@ -25,20 +31,36 @@ export default defineComponent({
   setup(props, ctx) {
     const fileData = ref([]);
 
+    function getFileDta(type?: string) {
+      getFileListBySearch()
+        .then(res => {
+          fileData.value = res.data;
+          if (type === "delete") {
+            console.log(type);
+          } else {
+            ElMessage.success("获取文件列表成功");
+          }
+        })
+        .catch(() => {
+          ElMessage.error("获取文件列表失败");
+        });
+    }
 
-    function getFileDta() {
-     getFileListBySearch().then(res => {
-        fileData.value = res.data;
-      })
+    function deleteFile(e: string) {
+      console.log(e);
+      if (e && e === "delete") {
+        getFileDta("delete");
+      }
     }
 
     onMounted(() => {
-      getFileDta()
+      getFileDta();
     });
 
     return {
       fileData,
-      getFileDta
+      getFileDta,
+      deleteFile
     };
   }
 });

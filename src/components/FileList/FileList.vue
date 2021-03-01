@@ -30,7 +30,7 @@
               style="font-size: 40px;color: rgb(146,168,193)"
             ></i>
             <i
-              v-else-if="item.contentType === 'image/jpeg' || item.contentType === 'image/png'"
+              v-else-if="item.contentType.includes('image/')"
               class="iconfont icon-file_img"
               style="font-size: 40px;color: rgb(113,206,82)"
             ></i>
@@ -50,10 +50,10 @@
                 <el-button type="primary" @click="viewFile(item)">查看</el-button>
               </el-col>
               <el-col :span="8">
-                <el-button type="success">下载</el-button>
+                <el-button type="success" @click="downloadFile(item._id)">下载</el-button>
               </el-col>
               <el-col :span="8">
-                <el-button type="warning">删除</el-button>
+                <el-button type="warning" @click="deleteFile(item._id)">删除</el-button>
               </el-col>
             </el-row>
           </div>
@@ -67,6 +67,14 @@
     :viewImageVisible="viewImageProp.viewImageVisible"
     @close="closeViewImage($event)"
   ></ImageView>
+
+  <VideoPlay
+   v-if="videoPlayProp.maskVisible"
+    :id="videoPlayProp.id"
+    :maskVisible="videoPlayProp.maskVisible"
+    @close="closeVideo($event)"
+  >
+  </VideoPlay>
 </template>
 
 <script lang="ts">
@@ -80,15 +88,18 @@ import {
   ref,
   watch
 } from "vue";
-import { useFullscreen } from "../../utils/utils";
+import { useFullscreen, downloadUtl } from "../../utils/utils";
 import { fileInfo } from "../../views/home/interface";
-import { getFileById } from "../../api/files/files";
+import { download, deleteApi, getFileById } from "../../api/files/files";
 import ImageView from "../ImageView/index.vue";
+import VideoPlay from "../VideoPlay/index.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "FileList",
   components: {
-    ImageView
+    ImageView,
+    VideoPlay
   },
   props: {
     name: {
@@ -100,6 +111,7 @@ export default defineComponent({
       default: []
     }
   },
+  emits: ['delete'],
 
   setup(props, ctx) {
     const {
@@ -114,18 +126,52 @@ export default defineComponent({
       id: ""
     });
 
+    const videoPlayProp = reactive({
+      maskVisible: false,
+      id: ''
+    })
+
     function viewFile(data: fileInfo) {
+      console.log(data, 'noted:::::::::');
       if (
-        data.contentType === "image/jpeg" ||
-        data.contentType === "image/png"
+        data.contentType.includes('image/')
       ) {
         viewImageProp.viewImageVisible = true;
         viewImageProp.id = data._id;
+      } else if (data.contentType === 'video/mp4') {
+        videoPlayProp.maskVisible = true;
+        videoPlayProp.id = data._id
       }
+    }
+
+    function downloadFile(id: string) {
+      download(id).then(res => {
+        console.log(res, 'donwload::::::::::');
+        downloadUtl(res)
+      })
+    }
+
+    function deleteFile(id: string) {
+      deleteApi(id).then(res => {
+        if (res) {
+          ElMessage.success({
+            message: '删除数据成功',
+            type: 'success'
+          });
+          ctx.emit('delete', 'delete')
+        }
+      }).catch(() => {
+        ElMessage.error('删除文件失败');
+      });
     }
 
     function closeViewImage(e: boolean) {
       viewImageProp.viewImageVisible = e;
+    }
+
+    function closeVideo(e: boolean) {
+      console.log(e, 999);
+      videoPlayProp.maskVisible = e;
     }
 
     onMounted(() => {
@@ -139,7 +185,11 @@ export default defineComponent({
       exitFullscreen,
       viewFile,
       viewImageProp,
-      closeViewImage
+      closeViewImage,
+      downloadFile,
+      deleteFile,
+      videoPlayProp,
+      closeVideo
     };
   }
 });
