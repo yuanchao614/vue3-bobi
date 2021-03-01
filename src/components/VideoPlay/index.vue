@@ -11,7 +11,7 @@
         poster="MY_VIDEO_POSTER.jpg"
         data-setup="{}"
       >
-        <source src="http://localhost:8081/files/603c9a42beed8420a4f2ca19" type="video/mp4" />
+        <source :src="src" type="video/mp4" />
         <source src="MY_VIDEO.webm" type="video/webm" />
         <p class="vjs-no-js">
           To view this video please enable JavaScript, and consider upgrading to a
@@ -67,6 +67,8 @@ export default defineComponent({
       ctx.emit("close", false);
     }
 
+    const src = computed(() => `http://localhost:3000/files/${props.id}`)
+
     onMounted(() => {
       maskShow.value = props.maskVisible;
       console.log(props, 1);
@@ -74,7 +76,8 @@ export default defineComponent({
 
     return {
       maskShow,
-      closeVideo
+      closeVideo,
+      src
     };
   }
 });
