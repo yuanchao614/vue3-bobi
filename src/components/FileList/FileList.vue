@@ -1,64 +1,45 @@
 <template>
   <div class="fileList">
-    <div class="cardBox" v-for="item in fileData" :key="item._id">
-      <el-card shadow="hover">
-        <div style="display: flex;justify-content: space-between;">
-          <div class="block">
-            <i
-              v-if="item.contentType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
-              class="iconfont icon-file_excel"
-              style="font-size: 40px;color: rgb(114,220,162)"
-            ></i>
-            <i
-              v-else-if="item.contentType === 'application/zip'"
-              class="iconfont icon-file_zip"
-              style="font-size: 40px;color: rgb(219,179,117)"
-            ></i>
-            <i
-              v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
-              class="iconfont icon-file_word"
-              style="font-size: 40px;color: rgb(108,162,255)"
-            ></i>
-            <i
-              v-else-if="item.contentType === 'application/pdf'"
-              class="iconfont icon-file_ppt"
-              style="font-size: 40px;color: rgb(255,130,120)"
-            ></i>
-            <i
-              v-else-if="item.contentType === 'text/plain'"
-              class="iconfont icon-file_txt"
-              style="font-size: 40px;color: rgb(146,168,193)"
-            ></i>
-            <i
-              v-else-if="item.contentType.includes('image/')"
-              class="iconfont icon-file_img"
-              style="font-size: 40px;color: rgb(113,206,82)"
-            ></i>
-            <i
-              v-else-if="item.contentType === 'video/mp4'"
-              class="iconfont icon-file_video"
-              style="font-size: 40px;color: rgb(230,87,255)"
-            ></i>
-          </div>
-          <div class="file-info">
-            <p>{{ item.filename }}</p>
-            <span>{{ item.uploadDate }}</span>
-          </div>
-          <div class="flex-center">
-            <el-row :gutter="12">
-              <el-col :span="8">
-                <el-button type="primary" @click="viewFile(item)">查看</el-button>
-              </el-col>
-              <el-col :span="8">
-                <el-button type="success" @click="downloadFile(item._id)">下载</el-button>
-              </el-col>
-              <el-col :span="8">
-                <el-button type="warning" @click="deleteFile(item._id)">删除</el-button>
-              </el-col>
-            </el-row>
-          </div>
-        </div>
-      </el-card>
+     <div class="card-container" v-for="item in fileData" :key="item._id">
+    <div class="card-icon">
+      <span>
+        <img src="../../assets/icons/youtube.png" style="width: 50px; height: 50px;" alt="Bobi" v-if="item.contentType === 'video/mp4'">
+        <img src="../../assets/icons/image.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'image/png'">
+        <img src="../../assets/icons/xlsx.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
+        <img src="../../assets/icons/doc.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+        <img src="../../assets/icons/PDF.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/pdf'">
+        <img src="../../assets/icons/txt.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'text/plain'">
+        <img src="../../assets/icons/zip.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/zip'">
+      </span>
+    </div>
+    <div class="card-info">
+      <p>
+        <span>上传时间：</span>
+        {{item.uploadDate}}</p>
+      <p>
+        <span>文件大小：</span>
+        {{item.length}}</p>
+      <p>
+        <span>文件名：</span>
+      {{item.filename}}</p>
+      <p>
+        <span>文件描述：</span>
+      description</p>
+    </div>
+    <div class="card-operator">
+      <el-button class="clear-btnstyle" :disabled="item.contentType.includes('image/') ? false : true" circle @click="viewFile(item)">
+        <i class="iconfont icon-chakan"></i>
+      </el-button>
+      <el-button class="clear-btnstyle" :disabled="item.contentType.includes('video/mp4') ? false : true" circle @click="viewFile(item)">
+        <i class="iconfont icon-play"></i>
+      </el-button>
+      <el-button class="clear-btnstyle" circle @click="downloadFile(item._id)">
+       <i class="iconfont icon-download"></i>
+      </el-button>
+      <el-button class="clear-btnstyle" circle @click="deleteFile(item._id)">
+       <i class="iconfont icon-delete"></i>
+      </el-button>
+    </div>
     </div>
   </div>
   <ImageView
@@ -205,35 +186,65 @@ export default defineComponent({
 
 .fileList {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.cardBox {
-  width: 30%;
-  margin: 0.5rem 0;
-}
-
-.flex-center {
-  display: flex;
-  align-items: flex-end;
-}
-
-.file-info {
-  p {
-    font-size: 20px;
-    text-align: left;
-    padding-left: 0.5rem;
-    margin-top: unset;
+ .card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 330px;
+    height: 330px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    background: white;
+    transition: all .3s ease-in-out;
+    &:hover {
+      // box-shadow: 1px 1px 10px 2px #ccc;
+      transform: scale(1.05)
+    }
   }
-  span {
-    font-size: 10px;
-    padding-left: 0.5rem;
-    display: inline-block;
-    width: 100%;
-    text-align: left;
+
+  .card-icon {
+    margin-top: 20px;
+    text-align: center;
   }
-}
+  .card-info {
+    margin-top: 5px;
+    text-align: left;
+    p {
+      margin-left: 30px;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 8px 0;
+      font-size: 14px;
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .card-operator {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    & .clear-btnstyle {
+      margin: 0;
+      padding: 0;
+      border: unset;
+      background: transparent;
+    }
+    i {
+      font-size: 28px;
+      cursor: pointer;
+      &:hover {
+        color: red;
+      }
+    }
+  }
 </style>

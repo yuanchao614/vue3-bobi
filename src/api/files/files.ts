@@ -29,3 +29,11 @@ export function deleteApi(id: string) {
         method: 'GET'
     })
 }
+
+export function uploadApi(formData: any) {
+    return Axios.request({
+        url: '/files',
+        method: 'POST',
+        data: formData
+    })
+}
