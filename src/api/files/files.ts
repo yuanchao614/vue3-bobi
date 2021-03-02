@@ -1,7 +1,8 @@
 import Axios from "../../utils/http/axios/Axios";
+import { SearchFileInterface} from './interface'
 
 
-export function getFileListBySearch(param: any = {}) {
+export function getFileListBySearch(param: SearchFileInterface = {}) {
     return Axios.request({
         url: "/files/search",
         method: "post",

@@ -4,12 +4,14 @@
     <div class="card-icon">
       <span>
         <img src="../../assets/icons/youtube.png" style="width: 50px; height: 50px;" alt="Bobi" v-if="item.contentType === 'video/mp4'">
-        <img src="../../assets/icons/image.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'image/png'">
+        <img src="../../assets/icons/image.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'image/png' || item.contentType === 'image/jpeg'">
         <img src="../../assets/icons/xlsx.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
         <img src="../../assets/icons/doc.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
         <img src="../../assets/icons/PDF.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/pdf'">
         <img src="../../assets/icons/txt.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'text/plain'">
         <img src="../../assets/icons/zip.png" style="width: 50px; height: 50px;" alt="Bobi" v-else-if="item.contentType === 'application/zip'">
+        <img src="../../assets/icons/Other.png" style="width: 50px; height: 50px;" alt="Bobi" v-else>
+
       </span>
     </div>
     <div class="card-info">
@@ -222,6 +224,7 @@ export default defineComponent({
       margin-bottom: 0;
       padding: 8px 0;
       font-size: 14px;
+      word-break: break-all;;
       span {
         font-weight: bold;
       }

@@ -26,6 +26,7 @@ import {
 } from "vue";
 import { getFileListBySearch } from "../../api/files/files";
 import { ElMessage } from "element-plus";
+import { SearchFileInterface} from '../../api/files/interface'
 
 export default defineComponent({
   components: { FileList, SearchFile },
@@ -34,7 +35,7 @@ export default defineComponent({
     const fileData = ref([]);
 
     function getFileDta(query = {}, type?: string) {
-      getFileListBySearch()
+      getFileListBySearch(query)
         .then(res => {
           fileData.value = res.data;
           if (type === "delete") {
@@ -58,11 +59,16 @@ export default defineComponent({
       }
     }
 
-    function searchChange(e: Record<'searchBy' | 'searchValue', string>) {
+    function searchChange(e: SearchFileInterface) {
       console.log(e.searchBy, e.searchValue);
-      // const search = {}
-      // search[e.searchBy] = e.searchValue;
-      // getFileDta(search, 'query')
+      let query: SearchFileInterface = {}
+      if (e['searchBy'] === 'filename') {
+        query = {filename: e['searchValue']}
+      }
+      if (e['searchBy'] === 'contentType') {
+        query = {contentType: e['searchValue']}
+      }
+      getFileDta(query, 'query')
     }
 
     onMounted(() => {

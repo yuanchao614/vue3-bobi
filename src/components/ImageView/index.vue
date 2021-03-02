@@ -6,7 +6,7 @@
   :before-close="handleClose">
   <div class="demo-image__preview">
   <el-image
-    style="width: 100px; height: 100px"
+    style="max-width: 500px; max-height: 500px"
     :src="src"
     :fit="fit"
     :preview-src-list="srcList">

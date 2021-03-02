@@ -2,7 +2,7 @@
   <div class="upload">
       <el-row>
   <el-col :span="12">
-      <img src="../../assets/images/upload.png" alt="">
+      <img src="../../assets/images/upload.png" alt="" class="upload-img">
   </el-col>
   <el-col :span="12">
       <div class="upload-box">
@@ -56,5 +56,11 @@ export default defineComponent({
     &:hover {
          transition: all 0.3s ease-in-out;
     }
+}
+
+.upload-img {
+  width: 500px;
+  height: 500px;
+  margin-top: 100px;
 }
 </style>
