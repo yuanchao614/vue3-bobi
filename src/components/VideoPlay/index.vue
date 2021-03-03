@@ -67,7 +67,7 @@ export default defineComponent({
       ctx.emit("close", false);
     }
 
-    const src = computed(() => `http://localhost:3000/files/${props.id}`)
+    const src = computed(() => `http://localhost:3000/api/files/${props.id}`)
 
     onMounted(() => {
       maskShow.value = props.maskVisible;

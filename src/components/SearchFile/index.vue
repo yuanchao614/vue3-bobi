@@ -56,11 +56,9 @@ export default defineComponent({
     }
 
     function onSearch() {
-        if (searchParam.searchBy && searchParam.searchValue) {
-            ctx.emit('onSearchChange', searchParam)
+      ctx.emit('onSearchChange', searchParam)
+        if (searchParam.searchBy && !searchParam.searchValue) {
             toggleViewSearch()
-        } else {
-            ElMessage('请填写完整的查询信息！');
         }
     }
 

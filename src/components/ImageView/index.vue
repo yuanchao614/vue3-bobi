@@ -61,7 +61,7 @@ export default defineComponent({
     }
     onMounted(() => {
         ViewModelVisible.value = props.viewImageVisible;
-        src.value = `http://localhost:3000/files/${props.id}`
+        src.value = `http://localhost:3000/api/files/${props.id}`
         srcList.value = [src.value];
       console.log(props);
     });

@@ -2,16 +2,14 @@
   <div class="common-layout">
   <el-container>
     <el-header>
-       <!-- <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div> -->
   <el-menu default-active="/" class="el-menu-demo" mode="horizontal" background-color="#090723" active-text-color="#fff" menu-trigger="hover" router @select="handleSelect">
-  <el-menu-item index="">
-    <a>
-    <img src="./assets/images/rocket.png" style="width: 50px; height: 50px;" alt="Bobi">
-  </a>
-  </el-menu-item>
+  
+    <li style="float: left;
+    height: 68px;
+    cursor: pointer;
+    line-height: 60px;">
+    <img src="./assets/images/rocket.png" style="width: 65px; height: 65px;margin-top: 10px;" alt="Bobi">
+  </li>
   <el-menu-item index="/">首页</el-menu-item>
   <el-submenu index="2">
     <template #title>我的工作台</template>
@@ -27,11 +25,31 @@
   </el-submenu>
   <el-menu-item index="/uploads">文件上传</el-menu-item>
 </el-menu>
+<div>
+ <a style="background-color: #fff;
+    border-color: #fff;
+    color: #000;
+    line-height: 80px;
+    padding: 7px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    ">
+    <img src="./assets/icons/king.png" style="width: 24px; height: 24px;vertical-align: middle" alt="Bobi">
+    用户中心
+    </a>
+</div>
     </el-header>
     <el-main class="b-main">
       <router-view/>
     </el-main>
-    <el-footer class="b-footer">Footer</el-footer>
+    <el-footer class="b-footer">
+      <div style="">
+        <!-- <h4>FS</h4> -->
+        <span>A personal file system management, build by vue3 + axios + mongodb + element-plus!</span>
+      </div>
+    </el-footer>
   </el-container>
   </div>
 </template>
@@ -107,6 +125,11 @@ export default defineComponent({
     bottom: 60px;
     left: 0;
     right: 0;
+  }
+
+  .el-header {
+    display: flex;
+    justify-content: space-between
   }
   ::-webkit-scrollbar{width:10px;height:10px;overflow:auto}
   ::-webkit-scrollbar-thumb{background-color:#e6e6e6;min-height:25px;min-width:25px;border:1px solid #e0e0e0}
