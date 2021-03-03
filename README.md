@@ -1,5 +1,7 @@
 # vue3-bobi
 
+### A personal file system management, build by vue3 + axios + mongodb + element-plus!
+
 ## Project setup
 ```
 npm install
