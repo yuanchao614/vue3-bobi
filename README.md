@@ -1,5 +1,10 @@
 # vue3-bobi
 
+A personal file system management, build by vue3 + typescript + axios + mongodb + element-plus!
+
+#### backendAPi
+See [https://github.com/yuanchao614/Nestjs-Mongodb-CURD](https://github.com/yuanchao614/Nestjs-Mongodb-CURD).
+
 ## Project setup
 ```
 npm install
