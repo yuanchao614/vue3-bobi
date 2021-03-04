@@ -24,6 +24,7 @@
     </el-submenu>
   </el-submenu>
   <el-menu-item index="/uploads">文件上传</el-menu-item>
+  <el-menu-item index="/user">用户</el-menu-item>
 </el-menu>
 <div>
  <a style="background-color: #fff;

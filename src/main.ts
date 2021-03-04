@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import { loadIconfontStyle, loadscript } from './utils/utils'
 
-['//at.alicdn.com/t/font_2393914_94icye6sljm.css', 'https://vjs.zencdn.net/7.10.2/video-js.css'].forEach(url => {
+['//at.alicdn.com/t/font_2393914_woccb09b6hc.css', 'https://vjs.zencdn.net/7.10.2/video-js.css'].forEach(url => {
     loadIconfontStyle(url)
 });
 ['https://vjs.zencdn.net/7.10.2/video.min.js'].forEach(url => loadscript(url))
