@@ -3,7 +3,7 @@
    <!-- <input type="file"> -->
    <el-upload
   class="upload-demo"
-  action="http://localhost:8080/files"
+  :action="uploadUrl"
   :on-change="handleChange"
   :data="description"
   :multiple="true"
@@ -43,6 +43,7 @@ export default defineComponent({
       const description = {
           description: 'test description'
       }
+      const uploadUrl = ref('');
 
 
       function handleChange(file: any, fileList: any[]) {
@@ -55,10 +56,15 @@ export default defineComponent({
           console.log(file, 'befor::::::::::::');
       }
 
+      onMounted(() => {
+        uploadUrl.value = `${window.location.origin}/api/files`
+      })
+
     return {
      fileList,
      handleChange,
-     description
+     description,
+     uploadUrl
     };
   }
 });

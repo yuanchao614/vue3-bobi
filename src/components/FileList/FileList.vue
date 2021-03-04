@@ -7,43 +7,43 @@
             src="../../assets/icons/youtube.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-if="item.contentType === 'video/mp4'"
+            v-if="item.contentType === FILE_TYPE.VIDEO"
           />
           <img
             src="../../assets/icons/image.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'image/png' || item.contentType === 'image/jpeg'"
+            v-else-if="item.contentType === FILE_TYPE.IMAGE_PNG || item.contentType === FILE_TYPE.IMAGE_JPG"
           />
           <img
             src="../../assets/icons/xlsx.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+            v-else-if="item.contentType === FILE_TYPE.XLSX"
           />
           <img
             src="../../assets/icons/doc.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+            v-else-if="item.contentType === FILE_TYPE.DOC"
           />
           <img
             src="../../assets/icons/PDF.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'application/pdf'"
+            v-else-if="item.contentType === FILE_TYPE.PDF"
           />
           <img
             src="../../assets/icons/txt.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'text/plain'"
+            v-else-if="item.contentType === FILE_TYPE.TXT"
           />
           <img
             src="../../assets/icons/zip.png"
             style="width: 50px; height: 50px;"
             alt="Bobi"
-            v-else-if="item.contentType === 'application/zip'"
+            v-else-if="item.contentType === FILE_TYPE.ZIP"
           />
           <img
             src="../../assets/icons/Other.png"
@@ -76,6 +76,7 @@
           class="clear-btnstyle"
           :disabled="item.contentType.includes('image/') ? false : true"
           circle
+          title="查看"
           @click="viewFile(item)"
         >
           <i class="iconfont icon-chakan"></i>
@@ -83,15 +84,16 @@
         <el-button
           class="clear-btnstyle"
           :disabled="item.contentType.includes('video/mp4') ? false : true"
+          title="播放"
           circle
           @click="viewFile(item)"
         >
           <i class="iconfont icon-play"></i>
         </el-button>
-        <el-button class="clear-btnstyle" circle @click="downloadFile(item._id)">
+        <el-button class="clear-btnstyle" title="下载" circle @click="downloadFile(item._id)">
           <i class="iconfont icon-download"></i>
         </el-button>
-        <el-button class="clear-btnstyle" circle @click="deleteFile(item._id)">
+        <el-button class="clear-btnstyle" circle title="删除" @click="deleteFile(item._id)">
           <i class="iconfont icon-delete"></i>
         </el-button>
       </div>
@@ -117,6 +119,7 @@ import {
   computed,
   defineComponent,
   onBeforeUnmount,
+  onBeforeMount,
   onMounted,
   PropType,
   reactive,
@@ -129,6 +132,7 @@ import { download, deleteApi, getFileById } from "../../api/files/files";
 import ImageView from "../ImageView/index.vue";
 import VideoPlay from "../VideoPlay/index.vue";
 import { ElMessage } from "element-plus";
+import { FILE_TYPE } from '../../enum/file-type'
 
 export default defineComponent({
   name: "FileList",
@@ -209,6 +213,10 @@ export default defineComponent({
       videoPlayProp.maskVisible = e;
     }
 
+    onBeforeMount(() => {
+      console.log(FILE_TYPE, 'file type enum:::::::::::');
+    })
+
     onMounted(() => {
       console.log(props);
     });
@@ -224,7 +232,8 @@ export default defineComponent({
       downloadFile,
       deleteFile,
       videoPlayProp,
-      closeVideo
+      closeVideo,
+      FILE_TYPE
     };
   }
 });

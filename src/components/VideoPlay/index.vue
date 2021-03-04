@@ -67,7 +67,7 @@ export default defineComponent({
       ctx.emit("close", false);
     }
 
-    const src = computed(() => `http://localhost:3000/api/files/${props.id}`)
+    const src = computed(() => `${window.location.origin}/api/files/${props.id}`)
 
     onMounted(() => {
       maskShow.value = props.maskVisible;
@@ -110,7 +110,7 @@ export default defineComponent({
 .closeIcon {
   position: fixed;
   right: 10px;
-  top: 10px;
+  top: 60px;
   z-index: 999
   // margin: auto;
 }
