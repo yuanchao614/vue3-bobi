@@ -3,12 +3,12 @@
     <div class="video">
       <video
         id="my-video"
-        class="video-js"
+        class="video-js vjs-default-skin vjs-big-play-centered"
         controls
         preload="auto"
         width="640"
         height="264"
-        poster="MY_VIDEO_POSTER.jpg"
+        poster="/api/files/603de9bedaca795fc01728ae"
         data-setup="{}"
       >
         <source :src="src" type="video/mp4" />

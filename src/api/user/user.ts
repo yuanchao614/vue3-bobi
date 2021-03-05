@@ -25,3 +25,10 @@ export function updateUserApi(id: string, data: CreateUser) {
         data
     })
 }
+
+export function deleteUserApi(id: string) {
+    return Axios.request({
+        url: `/api/user/${id}`,
+        method: 'delete'
+    })
+}

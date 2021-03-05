@@ -27,7 +27,7 @@
                     <el-button type="text" title="编辑" @click="updateUser(item)">
                         <i class="iconfont icon-edit1"></i>
                     </el-button>
-                    <el-button type="text" style="margin-left: 10px;" title="删除">
+                    <el-button type="text" style="margin-left: 10px;" title="删除" @click="deleteUser(item._id)">
                         <i class="iconfont icon-delete"></i>
                     </el-button>
                 </div>
@@ -65,7 +65,7 @@ import {
   ref,
   watch
 } from "vue";
-import { getUser } from "../../api/user/user";
+import { getUser, deleteUserApi } from "../../api/user/user";
 import { ElMessage } from "element-plus";
 import CreateEditUser from '../../components/CreateEditUser/index.vue'
 
@@ -90,7 +90,7 @@ export default defineComponent({
         console.log(res);
         userList.value = res.data.userList;
         total.value = res.data.total;
-        if (type && type === 'createOrUpdate') {
+        if (type && (type === 'createOrUpdate' || type === 'delete')) {
           return;
         }
         ElMessage.success({
@@ -131,6 +131,20 @@ export default defineComponent({
       console.log(e);
     }
 
+    function deleteUser(id: string) {
+      deleteUserApi(id).then(res => {
+        if (res) {
+           ElMessage.success({
+            message: '删除用户成功!',
+            type: 'success'
+          });
+          getUserList(pagination, 'delete')
+        }
+      }).catch(error => {
+          ElMessage.error('删除用户失败!');
+      })
+    }
+
     onMounted(() => {
       getUserList();
     });
@@ -146,7 +160,8 @@ export default defineComponent({
       closeUserModel,
       action,
       updateUser,
-      updateData
+      updateData,
+      deleteUser
     };
   }
 });
