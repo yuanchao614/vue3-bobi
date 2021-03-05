@@ -3,6 +3,6 @@ export interface SearchFileInterface {
 }
 
 export interface Pagination {
-  pageIndex: number,
-  pageSize: number
+  pageIndex?: number,
+  pageSize?: number
 }

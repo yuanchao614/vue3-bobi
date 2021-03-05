@@ -1,5 +1,8 @@
 <template>
   <div class="user">
+     <el-button type="text" title="" @click="createUser()">
+                       新增用户
+                    </el-button>
     <div class="container">
       <div v-for="item in userList" :key="item._id" class="b-avatar">
         <el-tooltip placement="right">
@@ -21,7 +24,7 @@
                     <i class="iconfont icon-Date"></i>{{item.createdDate}}
                 </div>
                 <div class="operator">
-                    <el-button type="text" title="编辑">
+                    <el-button type="text" title="编辑" @click="updateUser(item)">
                         <i class="iconfont icon-edit1"></i>
                     </el-button>
                     <el-button type="text" style="margin-left: 10px;" title="删除">
@@ -47,6 +50,7 @@
       :total="total">
     </el-pagination>
     </div>
+    <CreateEditUser v-if="viewUserVisible" :viewUserVisible="viewUserVisible" :userData="action === 'create' ? {} : updateData" :action="action" @handleClose="closeUserModel($event)"></CreateEditUser>
   </div>
 </template>
 
@@ -63,8 +67,12 @@ import {
 } from "vue";
 import { getUser } from "../../api/user/user";
 import { ElMessage } from "element-plus";
+import CreateEditUser from '../../components/CreateEditUser/index.vue'
 
 export default defineComponent({
+  components: {
+    CreateEditUser
+  },
   setup() {
     const userList = ref<any>([]);
     const pagination = reactive({
@@ -73,12 +81,18 @@ export default defineComponent({
     })
 
     const total = ref(10);
+    const viewUserVisible = ref(false)
+    const action = ref('');
+    const updateData = ref();
 
-    function getUserList(data = {}) {
+    function getUserList(data = {}, type?: string) {
       getUser(data).then(res => {
         console.log(res);
         userList.value = res.data.userList;
         total.value = res.data.total;
+        if (type && type === 'createOrUpdate') {
+          return;
+        }
         ElMessage.success({
             message: '获取用户列表成功!',
             type: 'success'
@@ -99,6 +113,24 @@ export default defineComponent({
         getUserList(pagination)
     }
 
+    function createUser() {
+      action.value = 'create';
+      viewUserVisible.value = true;
+    }
+
+    
+    function updateUser(item: any) {
+      action.value = 'update';
+      updateData.value = item;
+      viewUserVisible.value = true;
+    }
+
+    function closeUserModel(e: any) {
+      viewUserVisible.value = e;
+      getUserList(pagination, 'createOrUpdate')
+      console.log(e);
+    }
+
     onMounted(() => {
       getUserList();
     });
@@ -108,7 +140,13 @@ export default defineComponent({
       handleSizeChange,
       handleCurrentChange,
       pagination,
-      total
+      total,
+      viewUserVisible,
+      createUser,
+      closeUserModel,
+      action,
+      updateUser,
+      updateData
     };
   }
 });
