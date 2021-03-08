@@ -1,14 +1,28 @@
 <template>
-  <div class="container mx-auto">
-  <!-- ... -->
+  <div class="login-register mx-auto">
+    <el-row style="height: 100%;">
+  <el-col :span="12">
+    <div class="center">
+      <img src="../../assets/images/rocket.png" alt="Rockets">
+    </div>
+  </el-col>
+  <el-col :span="12">
+    <div class="center">
+      <Login></Login>
+    </div>
+  </el-col>
+</el-row>
 </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, reactive, ref, watch } from 'vue'
-export default defineComponent({
-  name: 'Login',
+import Login from '../../components/auth/Login.vue'
 
+export default defineComponent({
+  components: {
+    Login
+  },
   setup(props, ctx) {
 
     onMounted(() => {
@@ -22,20 +36,14 @@ export default defineComponent({
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+<style lang="scss">
+.login-register {
+  height: 100%;
+  & .center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>

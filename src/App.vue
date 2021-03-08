@@ -2,7 +2,7 @@
   <div class="common-layout">
   <el-container>
     <el-header>
-  <el-menu default-active="/" class="el-menu-demo" mode="horizontal" background-color="#090723" active-text-color="#fff" menu-trigger="hover" router @select="handleSelect">
+  <el-menu default-active="/" class="el-menu-demo" mode="horizontal" background-color="#090723" active-text-color="#fff" menu-trigger="hover" router @select="handleSelect" v-if="path !== '/login'">
   
     <li style="float: left;
     height: 68px;
@@ -10,7 +10,7 @@
     line-height: 60px;">
     <img src="./assets/images/rocket.png" style="width: 65px; height: 65px;margin-top: 10px;" alt="Bobi">
   </li>
-  <el-menu-item index="/">首页</el-menu-item>
+  <el-menu-item index="/home">首页</el-menu-item>
   <el-submenu index="2">
     <template #title>我的工作台</template>
     <el-menu-item index="2-1">选项1</el-menu-item>
@@ -56,9 +56,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, getCurrentInstance, onBeforeMount, watchEffect, ref } from 'vue'
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+
+  emits: ['login'],
+
+  setup(props, ct) {
+    const { ctx } = getCurrentInstance() as any;
+    const path = ref('');
+
+    onBeforeMount(() => {
+      path.value = ctx.$router.currentRoute.value.path;
+      console.log(ctx.$router.currentRoute.value.path);
+    })
+
+    return {
+      ctx,
+      path
+    }
+  }
 })
 </script>
 

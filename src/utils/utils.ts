@@ -91,3 +91,11 @@ export function loadscript(url: string) {
   script.src = url;
   document.body.appendChild(script);
 }
+
+export function setLocalStorageValue(key: string, value: string) {
+  localStorage.setItem(key, value);
+}
+
+export function removeStorageValue(key: string) {
+  localStorage.removeItem(key);
+}
