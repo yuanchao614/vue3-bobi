@@ -96,6 +96,11 @@ export function setLocalStorageValue(key: string, value: string) {
   localStorage.setItem(key, value);
 }
 
+
+export function getLocalStorageValue(key: string) {
+  return localStorage.getItem(key);
+}
+
 export function removeStorageValue(key: string) {
   localStorage.removeItem(key);
 }

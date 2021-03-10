@@ -1,12 +1,13 @@
 import Axios from "../../utils/http/axios/Axios";
 
 
+export interface LoginParam {
+    username: string;
+    password: string;
+}
 
-export function login(data: {
-    username: string,
-    password: string
-}) {
-    Axios.request({
+export function loginApi(data: LoginParam) {
+    return Axios.request({
         url: '/api/auth/login',
         method: 'POST',
         data

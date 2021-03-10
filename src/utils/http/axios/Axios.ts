@@ -2,6 +2,7 @@ import Axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
 import Store from '@/store'
+import { getLocalStorageValue } from '../../utils'
 
 /**
  * get status code
@@ -70,36 +71,35 @@ const service = Axios.create({
  * @description 请求发起前的拦截器
  * @returns {AxiosRequestConfig} config
  */
-// service.interceptors.request.use(async (config: AxiosRequestConfig) => {
-//   // 如果是获取token接口：
-//   if (config.url === 'auth/login') {
-//     let userAccount = ''
-//     // 若存在username，则为登录情况，判断user-account
-//     if (config.params.username) {
-//       userAccount = config.params.username.includes('-')
-//         ? 'ACCOUNT_USER'
-//         : 'ADMIN_USER'
-//     } else {
-//       // 刷新token情况，通过用户信息email是否有值判断
-//       userAccount = Store.state.user.userDetail.email
-//         ? 'ADMIN_USER'
-//         : 'ACCOUNT_USER'
-//     }
+service.interceptors.request.use(async (config: AxiosRequestConfig) => {
+  // 如果是获取token接口：
+  if (config.url === 'auth/login') {
+    // let userAccount = ''
+    // // 若存在username，则为登录情况，判断user-account
+    // if (config.params.username) {
+    //   userAccount = config.params.username.includes('-')
+    //     ? 'ACCOUNT_USER'
+    //     : 'ADMIN_USER'
+    // } else {
+    //   // 刷新token情况，通过用户信息email是否有值判断
+    //   userAccount = Store.state.user.userDetail.email
+    //     ? 'ADMIN_USER'
+    //     : 'ACCOUNT_USER'
+    // }
 
-//     config.headers['User-Account'] = userAccount
-//     config.headers.Authorization = 'Basic ZmViczoxMjM0NTY='
-//   } else {
-//     // 如果保存有token，则取，否则不添加Authorization
-//     if (localStorage.vuex && JSON.parse(localStorage.vuex).user?.token) {
-//       const token = Store.state.user?.token
-//       const tokenType = token.token_type
-//       const accessToken = token.access_token
-//       config.headers.Authorization = `${tokenType} ${accessToken}`
-//     }
-//   }
+    // config.headers['User-Account'] = userAccount
+    // config.headers.Authorization = 'Basic ZmViczoxMjM0NTY='
+  } else {
+    // 如果保存有token，则取，否则不添加Authorization
+    const token = getLocalStorageValue('access_token');
+    if (token) {
+      const tokenType = 'Bearer'
+      config.headers.Authorization = `${tokenType} ${token}` // type后必须有一个空格
+    }
+  }
 
-//   return config
-// })
+  return config
+})
 
 /**
  * @description 响应收到后的拦截器
@@ -108,7 +108,7 @@ const service = Axios.create({
 service.interceptors.response.use(
   /** 请求有响应 */
   async (response: AxiosResponse) => {
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       return Promise.resolve(response)
     } else {
       const __text = getErrorCode2text(response)
@@ -134,9 +134,11 @@ service.interceptors.response.use(
     }
 
     if (error?.response?.status === 401) {
-      if (router.currentRoute.value.path !== '/entry/login') {
+      if (router.currentRoute.value.path !== '/login') {
         ElMessage.error('登录凭证已过期，请重新登录')
-        router.push('/entry/login')
+        setTimeout(() => {
+          router.push('/login')
+        }, 2000)
       }
       return Promise.reject(new Error('401'))
     }
