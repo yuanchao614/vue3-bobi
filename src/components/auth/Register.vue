@@ -61,6 +61,7 @@ import { setLocalStorageValue } from "../../utils/utils";
 // import { fileInfo } from '../../views/home/interface'
 import { createUserApi } from "../../api/user/user";
 import { ElMessage } from "element-plus";
+import { CreateUser } from '../../api/user/interface'
 
 
 export default defineComponent({
@@ -79,13 +80,13 @@ export default defineComponent({
 
 
     function register() {
-        const param = {
+        const param: CreateUser = {
             userName: registerForm.userName,
             passWord: registerForm.passWord,
             email: registerForm.email,
             userType: 'visitor', // 默认注册者为游客
-            createdDate: new Date().toISOString(),
-            updatedDate: new Date().toISOString()
+            createdDate: new Date(),
+            updatedDate: new Date()
         }
         createUserApi(param).then(res => {
             console.log(res);

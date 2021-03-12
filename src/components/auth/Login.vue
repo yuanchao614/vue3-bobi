@@ -52,6 +52,7 @@ import { setLocalStorageValue } from "../../utils/utils";
 // import { fileInfo } from '../../views/home/interface'
 import { loginApi } from "../../api/auth/auth";
 import { ElMessage } from "element-plus";
+import router from '@/router'
 
 
 export default defineComponent({
@@ -76,6 +77,7 @@ export default defineComponent({
         if (res.data) {
           const token = res.data.access_token;
           setLocalStorageValue('access_token', token)
+          router.push('/home')
         }
       }).catch(
         error => {
