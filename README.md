@@ -14,6 +14,21 @@ Completed so far.....
 * Support login/register and get token
 * Support update/delete/query user
 
+## 截图
+
+![login](/images/login.png)
+
+![home](/images/home.png)
+
+![upload](/images/upload1.png)
+
+![user](/images/user.png)
+
+![download](/images/download.png)
+
+![image](/images/image.png)
+
+
 ## Backend APi
 See [https://github.com/yuanchao614/Nestjs-Mongodb-CURD](https://github.com/yuanchao614/Nestjs-Mongodb-CURD).
 
