@@ -1,6 +1,6 @@
 # vue3-bobi
 
-A personal file system management, build by vue3 + typescript + axios + mongodb + element-plus!
+A personal file system management, build by vue3 + typescript + axios + mongodb + element-plus + scss!
 
 ## System functions
 
@@ -32,6 +32,7 @@ Completed so far.....
 
 
 ## Backend APi
+Node.js + nest.js
 See [https://github.com/yuanchao614/Nestjs-Mongodb-CURD](https://github.com/yuanchao614/Nestjs-Mongodb-CURD).
 
 ## Project setup
